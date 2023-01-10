@@ -9,6 +9,9 @@ use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $builder = new \DI\ContainerBuilder();
 
 $builder->addDefinitions(__DIR__.'/dependencies.php');

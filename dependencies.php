@@ -39,7 +39,22 @@ return [
         ]);
         return new MustacheTemplateRenderer($mustache);
     },
+    PDO::class => function(ContainerInterface $container){
+        $dsn = sprintf('mysql:host=%s;dbname=%s;port=%s;charset=%s',
+            $_ENV['DB_HOST'],
+            $_ENV['DB_NAME'],
+            $_ENV['DB_PORT']??3306,
+            $_ENV['DB_CHARSET']??'utf8'
+        );
+        $username = $_ENV['DB_USERNAME'];
+        $password = $_ENV['DB_PASSWORD'];
+
+        $pdo = new PDO($dsn,$username,$password);
+
+        return $pdo;
+    },
     UserRepository::class => function(ContainerInterface $container){
-        return new PDOUserRepository();
+        $pdo = $container->get(PDO::class);
+        return new PDOUserRepository($pdo);
     }
 ];
