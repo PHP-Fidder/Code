@@ -4,8 +4,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\RouteCollectionInterface;
-use PhpFidder\Core\Registration\Action\Register;
+use PhpFidder\Core\Components\Registration\Action\Register;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
+use PhpFidder\Core\Renderer\TemplateRendererMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,10 +18,13 @@ $builder = new \DI\ContainerBuilder();
 $builder->addDefinitions(__DIR__.'/dependencies.php');
 
 $container = $builder->build();
-
+/** @var \League\Route\Router $router */
 $router = $container->get(RouteCollectionInterface::class);
 $request = $container->get(ServerRequestInterface::class);
 $emitter = $container->get(EmitterInterface::class);
+
+$router->middleware($container->get(TemplateRendererMiddleware::class));
+
 // map a route
 $router->map('GET', '/', function (ServerRequestInterface $request) use($container): ResponseInterface {
     $renderer = $container->get(TemplateRendererInterface::class);

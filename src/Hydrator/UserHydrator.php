@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Registration\Hydrator;
+namespace PhpFidder\Core\Hydrator;
 
 use PhpFidder\Core\Entity\UserEntity;
 use Ramsey\Uuid\Uuid;

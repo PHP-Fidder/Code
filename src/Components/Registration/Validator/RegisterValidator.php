@@ -1,13 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Registration\Validator;
+namespace PhpFidder\Core\Components\Registration\Validator;
+
+use PhpFidder\Core\Components\Registration\Request\RegisterRequest;
+use function PhpFidder\Core\Registration\Validator\mb_strlen;
 
 final class RegisterValidator
 {
     private array $errors = [];
-    public function isValid(string $username,string $email, string $password, string $passwordRepeat):bool
+    public function isValid(RegisterRequest $request,bool $usernameExists, bool $emailExists):bool
     {
+        $username = $request->getUsername();
+        $email = $request->getEmail();
+        $password = $request->getPassword();
+        $passwordRepeat = $request->getPassword();
         if(mb_strlen($username) === 0){
             $this->errors[]='Username is empty';
         }
@@ -17,11 +24,17 @@ final class RegisterValidator
         if(mb_strlen($username) > 20){
             $this->errors[] = 'Username is too long';
         }
+        if($usernameExists){
+            $this->errors[] = 'Username already registered';
+        }
         if(mb_strlen($email) === 0){
             $this->errors[]='Email is empty';
         }
         if(filter_var($email,FILTER_VALIDATE_EMAIL) === false){
             $this->errors[]= 'Email is invalid';
+        }
+        if($emailExists){
+            $this->errors[]='Email already used';
         }
         if(mb_strlen($password) === 0){
             $this->errors[]='Password is empty';

@@ -4,6 +4,7 @@ declare(strict_types=1);
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use League\Event\EventDispatcher;
 use League\Route\RouteCollectionInterface;
 use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
@@ -12,6 +13,7 @@ use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use PhpFidder\Core\Repository\PDOUserRepository;
 use PhpFidder\Core\Repository\UserRepository;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 return [
@@ -27,6 +29,9 @@ return [
     },
     EmitterInterface::class => function () {
         return new SapiEmitter();
+    },
+    EventDispatcherInterface::class => function(ContainerInterface $container){
+        return new EventDispatcher();
     },
     TemplateRendererInterface::class => function(ContainerInterface $container)
     {

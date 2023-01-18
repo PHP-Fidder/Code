@@ -46,4 +46,21 @@ final class PDOUserRepository implements UserRepository
         return true;
     }
 
+    public function usernameExists(string $username): bool
+    {
+        $sql = "SELECT 1 FROM user WHERE username=:username";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([':username' => $username]);
+        return (bool)$statement->fetchColumn();
+    }
+
+    public function emailExists(string $email): bool
+    {
+        $sql = "SELECT 1 FROM user WHERE email=:email";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([':email' => $email]);
+        return (bool)$statement->fetchColumn();
+    }
+
+
 }
