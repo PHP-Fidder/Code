@@ -4,6 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use League\Route\RouteCollectionInterface;
+use PhpFidder\Core\Components\Login\Action\Login;
 use PhpFidder\Core\Components\Registration\Action\Register;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use PhpFidder\Core\Renderer\TemplateRendererMiddleware;
@@ -37,6 +38,9 @@ $router->map('GET', '/', function (ServerRequestInterface $request) use($contain
 
 $router->map('GET','/account/create', Register::class);
 $router->map('POST','/account/create', Register::class);
+$router->map('GET','/account/login', Login::class);
+$router->map('POST','/account/login', Login::class);
+
 
 $response = $router->dispatch($request);
 

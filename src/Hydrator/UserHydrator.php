@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Hydrator;
@@ -8,10 +9,9 @@ use Ramsey\Uuid\Uuid;
 
 final class UserHydrator
 {
-    public function hydrate(array $data):UserEntity
+    public function hydrate(array $data): UserEntity
     {
         $id = $data['id'] ?? Uuid::uuid7()->getBytes();
-        $password = password_hash($data['password'],PASSWORD_DEFAULT);
-        return new UserEntity($id ,$data['username'],$password,$data['email']);
+        return new UserEntity($id, $data['username'], $data['passwordHash'], $data['email']);
     }
 }

@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Entity;
 
 final class UserEntity
 {
-    public function __construct(private readonly string $id,
-                                private readonly string $username,
-                                private readonly string $passwordHash,
-                                private readonly string $email
-    )    {
-
+    public function __construct(
+        private readonly string $id,
+        private readonly string $username,
+        private readonly string $passwordHash,
+        private readonly string $email
+    ) {
     }
 
     /**

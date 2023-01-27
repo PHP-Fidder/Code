@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Registration\Response;
@@ -9,7 +10,6 @@ use PhpFidder\Core\Renderer\RenderAwareInterface;
 
 final class RegisterResponse extends Response implements RenderAwareInterface
 {
-
     public readonly string $username;
     public readonly string $email;
     public readonly string $password;
@@ -30,6 +30,4 @@ final class RegisterResponse extends Response implements RenderAwareInterface
     {
         return 'register';
     }
-
-
 }

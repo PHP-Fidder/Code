@@ -1,16 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Repository;
 
 use PDO;
 use PhpFidder\Core\Entity\UserEntity;
+use PhpFidder\Core\Hydrator\UserHydrator;
 
 final class PDOUserRepository implements UserRepository
 {
     private array $created = [];
-    public function __construct(private readonly PDO $connection){
-
+    public function __construct(private readonly PDO $connection, private readonly UserHydrator $userHydrator)
+    {
     }
     public function add(UserEntity $userEntity): bool
     {
@@ -24,8 +26,9 @@ final class PDOUserRepository implements UserRepository
         $insertSQL = 'INSERT INTO user (id,username,passwordHash,email,createdAt) VALUES ';
         $insertData = [];
         /** @var UserEntity $user */
-        foreach($this->created as $index =>  $user){
-            $sql[] = sprintf('(%s,%s,%s,%s,NOW())',
+        foreach ($this->created as $index =>  $user) {
+            $sql[] = sprintf(
+                '(%s,%s,%s,%s,NOW())',
                 ':id'.$index,
                 ':username'.$index,
                 ':passwordHash'.$index,
@@ -37,7 +40,7 @@ final class PDOUserRepository implements UserRepository
             $insertData[ ':email'.$index ] = $user->getEmail();
         }
 
-        $insertSQL .= implode(',',$sql);
+        $insertSQL .= implode(',', $sql);
 
         $statement = $this->connection->prepare($insertSQL);
         $statement->execute($insertData);
@@ -62,5 +65,13 @@ final class PDOUserRepository implements UserRepository
         return (bool)$statement->fetchColumn();
     }
 
+    public function findByUsername(string $username): UserEntity
+    {
+        $sql = "SELECT id,username,passwordHash,email FROM user WHERE username=:username";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([':username' => $username]);
+        $userArray = $statement->fetch();
 
+        return $this->userHydrator->hydrate($userArray);
+    }
 }

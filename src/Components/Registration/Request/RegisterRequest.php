@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpFidder\Core\Components\Registration\Request;
 
+use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-final class RegisterRequest
+final class RegisterRequest implements ValidatorRequestInterface
 {
     private readonly string $username;
     private readonly string $password;
@@ -25,7 +27,8 @@ final class RegisterRequest
             $this->passwordRepeat = $body['passwordRepeat'] ?? '';
         }
     }
-    public function toArray():array{
+    public function toArray(): array
+    {
         return [
           'username' => $this->username,
           'email' => $this->email,
@@ -93,6 +96,4 @@ final class RegisterRequest
         $clone->errors = $errors;
         return $clone;
     }
-
-
 }
