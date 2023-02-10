@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Laminas\Diactoros\ServerRequestFactory;
@@ -11,11 +12,15 @@ use Laminas\Session\SessionManager;
 use Laminas\Session\Storage\SessionArrayStorage;
 use Laminas\Session\Storage\StorageInterface;
 use League\Event\EventDispatcher;
+use League\Event\PrioritizedListenerRegistry;
 use League\Route\RouteCollectionInterface;
 use League\Route\Router;
 use League\Route\Strategy\ApplicationStrategy;
+use PhpFidder\Core\Components\Core\EventSubscriber;
 use PhpFidder\Core\Components\Core\NativePasswordHasher;
 use PhpFidder\Core\Components\Core\PasswordHasherInterface;
+use PhpFidder\Core\Components\Landing\Event\IndexEvent;
+use PhpFidder\Core\Components\Landing\Event\IndexListener;
 use PhpFidder\Core\Renderer\MustacheTemplateRenderer;
 use PhpFidder\Core\Renderer\TemplateRendererInterface;
 use PhpFidder\Core\Repository\PDOUserRepository;
@@ -28,11 +33,16 @@ return [
     'templatePath' => __DIR__ . '/templates',
     ServerRequestInterface::class => function () {
         return ServerRequestFactory::fromGlobals(
-            $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES
+            $_SERVER,
+            $_GET,
+            $_POST,
+            $_COOKIE,
+            $_FILES
         );
     },
     RouteCollectionInterface::class => function (ContainerInterface $container) {
-        $strategy = (new ApplicationStrategy)->setContainer($container);
+        $strategy = new ApplicationStrategy();
+        $strategy->setContainer($container);
         return (new Router())->setStrategy($strategy);
     },
     EmitterInterface::class => function () {
@@ -52,7 +62,8 @@ return [
         return new MustacheTemplateRenderer($mustache);
     },
     PDO::class => function (ContainerInterface $container) {
-        $dsn = sprintf('mysql:host=%s;dbname=%s;port=%s;charset=%s',
+        $dsn = sprintf(
+            'mysql:host=%s;dbname=%s;port=%s;charset=%s',
             $_ENV['DB_HOST'],
             $_ENV['DB_NAME'],
             $_ENV['DB_PORT'] ?? 3306,
@@ -68,7 +79,7 @@ return [
     UserRepository::class => function (ContainerInterface $container) {
         $pdo = $container->get(PDO::class);
         $userHydrator = $container->get(\PhpFidder\Core\Hydrator\UserHydrator::class);
-        return new PDOUserRepository($pdo,$userHydrator);
+        return new PDOUserRepository($pdo, $userHydrator);
     },
     StorageInterface::class => function () {
         return new SessionArrayStorage();
@@ -82,8 +93,17 @@ return [
     Container::class => function (ContainerInterface $container) {
         return new Container('default', $container->get(ManagerInterface::class));
     },
-    PasswordHasherInterface::class => function(){
-    return new NativePasswordHasher();
+    PasswordHasherInterface::class => function () {
+        return new NativePasswordHasher();
+    },
+    'listeners' => function (ContainerInterface $container) {
+        return [
+            $container->get(IndexListener::class),
+        ];
+    },
+    EventSubscriber::class => function (ContainerInterface $container) {
+        $listeners = $container->get('listeners');
+        $eventDispatcher = $container->get(EventDispatcherInterface::class);
+        return new EventSubscriber($eventDispatcher, $listeners);
     }
-
 ];

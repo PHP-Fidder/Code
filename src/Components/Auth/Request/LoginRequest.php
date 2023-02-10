@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Components\Login\Request;
+namespace PhpFidder\Core\Components\Auth\Request;
 
 use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
 use Psr\Http\Message\ServerRequestInterface;

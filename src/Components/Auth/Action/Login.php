@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Components\Login\Action;
+namespace PhpFidder\Core\Components\Auth\Action;
 
 use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Session\Container;
 use PhpFidder\Core\Components\Core\PasswordHasherInterface;
-use PhpFidder\Core\Components\Login\Event\LoginSuccessEvent;
-use PhpFidder\Core\Components\Login\Request\LoginRequest;
-use PhpFidder\Core\Components\Login\Response\LoginResponse;
-use PhpFidder\Core\Components\Login\Validator\LoginValidator;
+use PhpFidder\Core\Components\Auth\Event\LoginSuccessEvent;
+use PhpFidder\Core\Components\Auth\Request\LoginRequest;
+use PhpFidder\Core\Components\Auth\Response\LoginResponse;
+use PhpFidder\Core\Components\Auth\Validator\LoginValidator;
 use PhpFidder\Core\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;

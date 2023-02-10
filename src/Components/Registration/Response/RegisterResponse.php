@@ -16,6 +16,10 @@ final class RegisterResponse extends Response implements RenderAwareInterface
     public readonly string $passwordRepeat;
 
     public readonly array $errors;
+    public function hasErrors(): bool
+    {
+        return count($this->errors) > 0;
+    }
     public function __construct(RegisterRequest $request)
     {
         parent::__construct();

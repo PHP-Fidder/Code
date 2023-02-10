@@ -1,7 +1,12 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__.'/src')
+    ->in(__DIR__)
+    ->exclude([
+        'vendor',
+        'public',
+        'templates'
+    ])->name('*.php')
 ;
 
 $config = new PhpCsFixer\Config();

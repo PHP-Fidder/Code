@@ -1,0 +1,34 @@
+{{% BLOCKS }}
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <meta charset="UTF-8">
+    <title>{{$ title }}My Awesome Site{{/ title }}</title>
+
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+
+    {{$ stylesheets }}
+    {{/ stylesheets }}
+</head>
+<body>
+<section class="hero main">
+    <div class="hero-body">
+        <div class="container">
+            <p class="title is-1">
+                < Fidder />
+            </p>
+            <p class="subtitle">
+                Let the world know!
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    {{$ content }}  {{/ content }}
+</div>
+
+{{$ scripts }}
+{{/ scripts }}
+</body>
+</html>

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Components\Login\Validator;
+namespace PhpFidder\Core\Components\Auth\Validator;
 
 use PhpFidder\Core\Components\Core\AbstractValidator;
 use PhpFidder\Core\Components\Core\ValidatorRequestInterface;
-use PhpFidder\Core\Components\Login\Request\LoginRequest;
+use PhpFidder\Core\Components\Auth\Request\LoginRequest;
 
 final class LoginValidator extends AbstractValidator
 {

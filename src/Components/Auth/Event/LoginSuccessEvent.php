@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpFidder\Core\Components\Login\Event;
+namespace PhpFidder\Core\Components\Auth\Event;
 
 use PhpFidder\Core\Entity\UserEntity;
 

@@ -1,10 +1,64 @@
-{{#errors}}
-<div style="color:red">{{.}}</div>
-{{/errors}}
-<form method="POST">
-    <div><input type="text" name="username" placeholder="Username" value="{{username}}"></div>
-    <div><input type="email" name="email" placeholder="E-Mail" value="{{email}}"></div>
-    <div><input type="password" name="password" placeholder="Password" value="{{password}}"></div>
-    <div><input type="password" name="passwordRepeat" placeholder="Password Repeat" value="{{passwordRepeat}}"></div>
-    <div><button>Registrieren</button></div>
-</form>
+{{% BLOCKS }}
+{{< layout/index }}
+    {{$ title }}Registrieren{{/ title }}
+    {{$ content }}
+        <section class="box">
+
+            <h2 class="title">Register</h2>
+            {{#hasErrors}}
+                <div class="notification is-danger">
+                    {{#errors}}
+                        <p> {{.}}</p>
+                    {{/errors}}
+                </div>
+            {{/hasErrors}}
+
+            <form method="POST">
+                <div class="field">
+                    <div class="label">
+                        <label class="label" for="username">Username</label>
+                    </div>
+                    <div class="control">
+                        <input class="input" id="username" type="text" name="username" placeholder="Username"
+                               value="{{username}}">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="label">
+                        <label class="label" for="email">E-Mail</label>
+                    </div>
+                    <div class="control">
+                        <input class="input" id="email" type="email" name="email" placeholder="E-Mail"
+                               value="{{email}}">
+                    </div>
+
+                </div>
+                <div class="field">
+                    <div class="label">
+                        <label class="label" for="password">Password</label>
+                    </div>
+                    <div class="control">
+                        <input class="input" id="password" type="password" name="password" placeholder="Password"
+                               value="{{password}}">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="label">
+                        <label class="label" for="passwordRepeat">Password repeat</label>
+                    </div>
+                    <div class="control">
+                        <input class="input" id="passwordRepeat" type="password" name="passwordRepeat"
+                               placeholder="Password Repeat"
+                               value="{{passwordRepeat}}">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-primary">Registrieren</button>
+                        <a href="/" class="button">Abbrechen</a>
+                    </div>
+                </div>
+            </form>
+        </section>
+    {{/ content }}
+{{/ layout/index }}
