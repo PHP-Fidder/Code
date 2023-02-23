@@ -17,4 +17,6 @@ interface UserRepository
     public function emailExists(string $email): bool;
 
     public function findByUsername(string $username): UserEntity;
+
+    public function findById(string $userId): UserEntity;
 }

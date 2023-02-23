@@ -11,6 +11,7 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+#[LoginRequired]
 final class Index
 {
     public function __construct(private readonly EventDispatcherInterface $dispatcher)
@@ -21,6 +22,7 @@ final class Index
     {
         $request = new IndexRequest($httpRequest);
         $welcomeMessage = 'Hallo Welt';
+
         $event = new IndexEvent($welcomeMessage);
         $this->dispatcher->dispatch($event);
         return new IndexResponse($event->getWelcomeMessage());

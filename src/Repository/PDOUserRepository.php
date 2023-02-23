@@ -74,4 +74,20 @@ final class PDOUserRepository implements UserRepository
 
         return $this->userHydrator->hydrate($userArray);
     }
+
+    public function findById(string $userId): UserEntity
+    {
+        $sql = "SELECT id,username,passwordHash,email FROM user WHERE id=:userId LIMIT 1";
+        $statement = $this->connection->prepare($sql);
+        $statement->execute([':userId' => $userId]);
+
+        if ($statement->rowCount() === 0) {
+            $message = sprintf("User %s not found", $userId);
+            throw new \Exception($message);
+        }
+
+        $userArray = $statement->fetch();
+
+        return $this->userHydrator->hydrate($userArray);
+    }
 }
