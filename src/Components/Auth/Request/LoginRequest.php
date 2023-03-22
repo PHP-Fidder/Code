@@ -18,18 +18,16 @@ final class LoginRequest implements ValidatorRequestInterface
     {
         $body = $request->getParsedBody();
         $this->method = $request->getMethod();
-        if ($body !== null) {
+        if (null !== $body) {
             $this->username = $body['username'] ?? '';
             $this->password = $body['password'] ?? '';
         }
     }
 
-
     public function getUsername(): string
     {
         return $this->username;
     }
-
 
     public function getPassword(): string
     {
@@ -38,19 +36,17 @@ final class LoginRequest implements ValidatorRequestInterface
 
     public function isPostRequest(): bool
     {
-        return $this->method === 'POST';
+        return 'POST' === $this->method;
     }
 
     public function withErrors(array $errors): self
     {
         $clone = clone $this;
         $clone->errors = $errors;
+
         return $clone;
     }
 
-    /**
-     * @return array
-     */
     public function getErrors(): array
     {
         return $this->errors;

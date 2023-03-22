@@ -14,6 +14,14 @@ final class LoginResponse extends Response implements RenderAwareInterface
     public readonly string $password;
     public readonly array $errors;
 
+    public function __construct(LoginRequest $request)
+    {
+        parent::__construct();
+        $this->username = $request->getUsername();
+        $this->password = $request->getPassword();
+        $this->errors = $request->getErrors();
+    }
+
     public function hasErrors(): bool
     {
         return count($this->errors) > 0;
@@ -22,13 +30,5 @@ final class LoginResponse extends Response implements RenderAwareInterface
     public function getTemplateName(): string
     {
         return 'login';
-    }
-
-    public function __construct(LoginRequest $request)
-    {
-        parent::__construct();
-        $this->username = $request->getUsername();
-        $this->password = $request->getPassword();
-        $this->errors = $request->getErrors();
     }
 }

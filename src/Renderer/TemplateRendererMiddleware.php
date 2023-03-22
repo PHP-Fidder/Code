@@ -15,6 +15,7 @@ final class TemplateRendererMiddleware implements MiddlewareInterface
     public function __construct(private readonly TemplateRendererInterface $renderer)
     {
     }
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = $handler->handle($request);
@@ -23,6 +24,7 @@ final class TemplateRendererMiddleware implements MiddlewareInterface
             $body = $this->renderer->render($response->getTemplateName(), $response);
             $response = new Response();
             $response->getBody()->write($body);
+
             return $response;
         }
 

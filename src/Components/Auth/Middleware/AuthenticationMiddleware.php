@@ -8,7 +8,6 @@ use Laminas\Session\Container;
 use League\Route\Route;
 use PhpFidder\Core\Components\Auth\Attributes\IsGranted;
 use PhpFidder\Core\Components\Auth\Exception\LoginRequiredException;
-use PhpFidder\Core\Entity\UserEntity;
 use PhpFidder\Core\Repository\UserRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -22,14 +21,15 @@ final class AuthenticationMiddleware implements MiddlewareInterface
 
     public function __construct(
         private readonly ContainerInterface $container,
-        private readonly Container          $session,
-        private readonly UserRepository     $userRepository
+        private readonly Container $session,
+        private readonly UserRepository $userRepository
     ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $routeCollection = $handler->getMiddlewareStack();
+
         /** @var Route $route */
         $route = array_pop($routeCollection);
 
@@ -41,10 +41,11 @@ final class AuthenticationMiddleware implements MiddlewareInterface
 
         if ($hasLoginRequiredAttribute) {
             if (!isset($this->session->userId)) {
-                throw new LoginRequiredException("Login Required");
+                throw new LoginRequiredException('Login Required');
             }
+
             try {
-                $user = $this->userRepository->findById((string)$this->session->userId);
+                $user = $this->userRepository->findById((string) $this->session->userId);
             } catch (\Throwable $e) {
                 throw new LoginRequiredException($e->getMessage());
             }

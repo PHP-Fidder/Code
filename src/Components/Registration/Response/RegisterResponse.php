@@ -16,10 +16,7 @@ final class RegisterResponse extends Response implements RenderAwareInterface
     public readonly string $passwordRepeat;
 
     public readonly array $errors;
-    public function hasErrors(): bool
-    {
-        return count($this->errors) > 0;
-    }
+
     public function __construct(RegisterRequest $request)
     {
         parent::__construct();
@@ -28,6 +25,11 @@ final class RegisterResponse extends Response implements RenderAwareInterface
         $this->password = $request->getPassword();
         $this->passwordRepeat = $request->getPasswordRepeat();
         $this->errors = $request->getErrors();
+    }
+
+    public function hasErrors(): bool
+    {
+        return count($this->errors) > 0;
     }
 
     public function getTemplateName(): string

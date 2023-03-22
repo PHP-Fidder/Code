@@ -25,6 +25,7 @@ final class Index
 
         $event = new IndexEvent($welcomeMessage);
         $this->dispatcher->dispatch($event);
+
         return new IndexResponse($event->getWelcomeMessage());
     }
 }

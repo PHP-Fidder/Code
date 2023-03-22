@@ -6,11 +6,11 @@ namespace PhpFidder\Core\Components\Auth\Action;
 
 use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Session\Container;
-use PhpFidder\Core\Components\Core\PasswordHasherInterface;
 use PhpFidder\Core\Components\Auth\Event\LoginSuccessEvent;
 use PhpFidder\Core\Components\Auth\Request\LoginRequest;
 use PhpFidder\Core\Components\Auth\Response\LoginResponse;
 use PhpFidder\Core\Components\Auth\Validator\LoginValidator;
+use PhpFidder\Core\Components\Core\PasswordHasherInterface;
 use PhpFidder\Core\Repository\UserRepository;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -26,13 +26,14 @@ final class Login
         private readonly EventDispatcherInterface $dispatcher
     ) {
     }
+
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $loginRequest = new LoginRequest($request);
 
         $userExists = $this->userRepository->usernameExists($loginRequest->getUsername());
 
-        if ($userExists === false) {
+        if (false === $userExists) {
             $this->validator->enableUserNotExistsError();
         }
 
@@ -43,11 +44,13 @@ final class Login
                 $this->session->userId = $user->getId();
                 $event = new LoginSuccessEvent($user);
                 $this->dispatcher->dispatch($event);
-                return new RedirectResponse('/');
+
+                return new RedirectResponse('/home');
             }
             $this->validator->enablePasswordIsInvalidError();
         }
         $loginRequest = $loginRequest->withErrors($this->validator->getErrors());
+
         return new LoginResponse($loginRequest);
     }
 }

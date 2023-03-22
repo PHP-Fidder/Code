@@ -26,6 +26,7 @@ final class Register
         private readonly EventDispatcherInterface $dispatcher
     ) {
     }
+
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $registerRequest = new RegisterRequest($request);
@@ -39,8 +40,8 @@ final class Register
             $this->validator->enableEmailExistsError();
         }
 
-        if ($registerRequest->isPostRequest() &&
-            $this->validator->isValid($registerRequest)) {
+        if ($registerRequest->isPostRequest()
+            && $this->validator->isValid($registerRequest)) {
             $userArray = $registerRequest->toArray();
             $userArray['passwordHash'] = $this->passwordHasher->hash($registerRequest->getPassword());
             $user = $this->userHydrator->hydrate($userArray);

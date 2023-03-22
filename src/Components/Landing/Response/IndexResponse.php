@@ -14,7 +14,6 @@ final class IndexResponse extends Response implements RenderAwareInterface
         parent::__construct();
     }
 
-
     public function getTemplateName(): string
     {
         return 'index';

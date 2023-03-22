@@ -1,0 +1,16 @@
+{{%FILTERS}}
+<form method="POST" action="{{#pathToRoute}}posts.create{{/pathToRoute}}">
+    <div class="field">
+        <label class="label" for="post">Neuer Beitrag</label>
+        <div class="control">
+            <textarea id="post" class="textarea" name="content" placeholder="Was gibt's Neues?">{{content}}</textarea>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-primary">Beitrag verfassen</button>
+        </div>
+    </div>
+
+</form>

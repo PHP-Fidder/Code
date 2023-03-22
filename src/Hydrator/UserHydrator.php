@@ -12,6 +12,7 @@ final class UserHydrator
     public function hydrate(array $data): UserEntity
     {
         $id = $data['id'] ?? Uuid::uuid7()->getBytes();
+
         return new UserEntity($id, $data['username'], $data['passwordHash'], $data['email']);
     }
 }

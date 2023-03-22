@@ -19,7 +19,8 @@ final class Logout
     public function __invoke(ServerRequestInterface $httpRequest): ResponseInterface
     {
         unset($this->session->userId);
-        $this->session->flashMessage[]='Logout successfull';
+        $this->session->flashMessage[] = 'Logout successfull';
+
         return new RedirectResponse('/');
     }
 }

@@ -6,7 +6,7 @@ namespace PhpFidder\Core\Components\Auth\Attributes;
 
 use Attribute;
 
-#[Attribute]
+#[\Attribute]
 final class IsGranted
 {
 }

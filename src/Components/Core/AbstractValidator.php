@@ -6,13 +6,15 @@ namespace PhpFidder\Core\Components\Core;
 
 abstract class AbstractValidator
 {
-    private array $errors = [];
+    protected array $errors = [];
 
     abstract public function validate(ValidatorRequestInterface $request): array;
+
     public function isValid(ValidatorRequestInterface $request): bool
     {
         $this->errors = $this->validate($request);
-        return count($this->errors) === 0;
+
+        return 0 === count($this->errors);
     }
 
     public function getErrors(): array

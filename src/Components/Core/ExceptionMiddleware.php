@@ -16,14 +16,14 @@ final class ExceptionMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-            //Allgemeiner prozess
+            // Allgemeiner prozess
             return $handler->handle($request);
         } catch (LoginRequiredException $e) {
-            //Login Required Fehler
+            // Login Required Fehler
             return new RedirectResponse('/account/login');
         } catch (\Throwable $e) {
-            //TODO Error Page response
-            //Allgemeiner Fehler
+            // TODO Error Page response
+            // Allgemeiner Fehler
             throw $e;
         }
     }
